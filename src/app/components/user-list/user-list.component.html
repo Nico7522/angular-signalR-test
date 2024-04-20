@@ -1,0 +1,27 @@
+<h1>User List</h1>
+
+<section class="user-list">
+  @if (userList$ | async; as users) {
+
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (user of users; track $index) {
+      <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.status }}</td>
+        <td><button (click)="pointing()">Pointing</button></td>
+        <!-- Ajoute cette ligne pour afficher le statut -->
+      </tr>
+      }
+    </tbody>
+  </table>
+  }
+</section>
