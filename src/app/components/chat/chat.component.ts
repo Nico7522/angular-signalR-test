@@ -14,17 +14,26 @@ import { ChatRoomService } from '../../services/chat-room.service';
 export class ChatComponent {
   roomNumber: FormControl = new FormControl('');
   name: FormControl = new FormControl('');
+  message: FormControl = new FormControl('');
+
   connectedAlertMessages: string[] = [];
-  messages: string[] = [];
+  messages: { name: string; message: string }[] = [];
   private _chatRoomService = inject(ChatRoomService);
   constructor() {
     this._chatRoomService.alertMessage$.subscribe((alertMessage) => {
       this.connectedAlertMessages.push(alertMessage);
     });
-  }
 
+    this._chatRoomService.messagesList$.subscribe((messages) => {
+      this.messages.push(messages);
+    });
+  }
   private _signalRService = inject(SignalRService);
   handleSubmit() {
     this._signalRService.connectToRoom(this.name.value, this.roomNumber.value);
+  }
+
+  sendMessage() {
+    this._signalRService.sendMessage(this.message.value, this.roomNumber.value);
   }
 }

@@ -37,6 +37,13 @@ export class SignalRService {
     this.hubConnection.on('JoinSpecificChatRoom', (alertMessage: string) => {
       this._chatRoomService.onJoinedChatRoom(alertMessage);
     });
+
+    this.hubConnection.on(
+      'ReceiveSpecificMessage',
+      (message: string, name: string) => {
+        this._chatRoomService.alertNewMessage(message, name);
+      }
+    );
   }
 
   poiting(id: number, status: number) {
@@ -45,5 +52,8 @@ export class SignalRService {
 
   connectToRoom(name: string, roomNumber: string) {
     this.hubConnection.invoke('JoinSpecificChatRoom', name, roomNumber);
+  }
+  sendMessage(message: string, roomNumber: string) {
+    this.hubConnection.invoke('ReceiveSpecificMessage', message, roomNumber);
   }
 }
