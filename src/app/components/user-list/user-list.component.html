@@ -1,27 +1,53 @@
 <h1>User List</h1>
 
 <section class="user-list">
+  <p-panel header="Users status">
+    <div class="users-status">
+      <div>
+        <p-tag severity="success" value="Present" />
+        <p>{{ presentUsers() }} Users</p>
+      </div>
+      <div>
+        <p-tag value="Absent" />
+        <p>{{ absentUsers() }} Users</p>
+      </div>
+      <div>
+        <p-tag severity="danger" value="Anomaly" />
+        <p>{{ anomalyUsers() }} Users</p>
+      </div>
+    </div>
+  </p-panel>
   @if (userList$ | async; as users) {
-
-  <table>
-    <thead>
+  <p-table [value]="users">
+    <ng-template pTemplate="header">
       <tr>
         <th>Name</th>
-        <th>Status</th>
-        <th>Action</th>
+        <th>Satus</th>
+        <th class="action-th">Action</th>
       </tr>
-    </thead>
-
-    <tbody>
-      @for (user of users; track $index) {
+    </ng-template>
+    <ng-template pTemplate="body" let-user>
       <tr>
         <td>{{ user.name }}</td>
-        <td>{{ user.status }}</td>
-        <td><button (click)="pointing()">Pointing</button></td>
-        <!-- Ajoute cette ligne pour afficher le statut -->
+        <td>
+          <p-tag
+            severity="{{ user.status | translateStatusSeverity }}"
+            value="{{ user.status | translateStatus }}"
+          />
+        </td>
+        <td class="column">
+          @if(idToken === user.id){
+          <p-button severity="success" (click)="setStatus(1)"
+            >Pointing</p-button
+          >
+          <p-button severity="warning" (click)="setStatus(0)">Absent</p-button>
+          <p-button severity="danger" (click)="setStatus(2)">Anomalie</p-button>
+          } @else {
+          <p>No possible action</p>
+          }
+        </td>
       </tr>
-      }
-    </tbody>
-  </table>
+    </ng-template>
+  </p-table>
   }
 </section>

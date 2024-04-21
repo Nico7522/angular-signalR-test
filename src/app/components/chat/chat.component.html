@@ -1,0 +1,20 @@
+<h1>Chat room</h1>
+
+<div>
+  <input [formControl]="name" pInputText placeholder="Name" />
+  <input [formControl]="roomNumber" pInputText placeholder="Room number" />
+  <p-button (click)="handleSubmit()">submit</p-button>
+</div>
+
+@for (message of connectedAlertMessages; track $index) {
+<p>{{ message }}</p>
+}
+
+<div>
+  @if (messages.length > 0) {
+  <h3>Messages</h3>
+
+  @for (message of messages; track $index) {
+  <p>{{ message }}</p>
+  } }
+</div>

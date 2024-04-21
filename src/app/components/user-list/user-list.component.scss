@@ -3,6 +3,7 @@ h1 {
 }
 .user-list {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
@@ -10,4 +11,41 @@ h1 {
 
 tbody {
   text-align: center;
+}
+
+.action-th {
+  text-align: center;
+}
+
+.column {
+  display: flex;
+  flex-direction: flex;
+  align-items: center;
+}
+
+p-table {
+  width: 70%;
+}
+
+p-panel {
+  margin-bottom: 10px;
+  width: 70%;
+}
+
+.users-status {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.users-status > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+}
+
+.users-status > div > p {
+  margin-left: 5px;
 }

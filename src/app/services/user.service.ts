@@ -1,33 +1,27 @@
 import { Injectable, inject } from '@angular/core';
 import { userList } from '../fake-date';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, map, of, switchMap } from 'rxjs';
 import { User } from '../models/user.model';
-import { SignalRService } from './signal-r.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private _signalRService = inject(SignalRService);
+  private _userList$: BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
+  userList$ = this._userList$.asObservable();
   constructor() {
-    this._signalRService.pointing$.subscribe((user) => {
-      userList.map((u) => {
-        if (u.id === user.id) {
-          u.status = 1;
-        }
-      });
-      console.log(userList);
+    this.getAll();
+  }
+
+  onPoiting(user: User) {
+    userList.map((u) => {
+      if (u.id === user.id) {
+        u.status = user.status;
+      }
     });
+    this._userList$.next(userList);
   }
-  private _idFormToken = 1;
-
-  getAll(): Observable<User[]> {
-    return of(userList);
+  getAll() {
+    this._userList$.next(userList);
   }
-
-  pointing() {
-    this._signalRService.poiting(this._idFormToken);
-  }
-
-  setPresence() {}
 }
